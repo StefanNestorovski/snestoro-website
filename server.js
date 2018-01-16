@@ -1,8 +1,11 @@
-const express = require('express');
-const app = express();
+var path = require('path');
+var express = require('express');
 
-app.use(express.static( __dirname + '/../app'));
+var app = express();
 
-app.get('/', (req, res) => res.send('Hello World!'))
+var staticPath = path.join(__dirname, '/public');
+app.use(express.static(staticPath));
 
-app.listen(80);
+app.listen(80, function() {
+  console.log('listening');
+});
