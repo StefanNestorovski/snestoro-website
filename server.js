@@ -6,6 +6,6 @@ var app = express();
 var staticPath = path.join(__dirname, '/public');
 app.use(express.static(staticPath));
 
-app.listen(80, function() {
+app.listen(443, function() {
   console.log('listening');
 });
