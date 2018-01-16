@@ -4,8 +4,7 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 8000;
 
-var staticPath = path.join(__dirname, '/public');
-app.use(express.static(staticPath));
+app.use('/public', express.static(path.join(__dirname + '/public')));
 
 app.listen(port, function() {
   console.log('listening');
