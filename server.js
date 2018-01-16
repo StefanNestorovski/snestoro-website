@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 8000;
 
-app.use('/public', express.static(path.join(__dirname + '/public')));
+app.use('/', express.static(path.join(__dirname + '/')));
 
 app.listen(port, function() {
   console.log('listening');
