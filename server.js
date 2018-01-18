@@ -6,7 +6,7 @@ var port = process.env.PORT || 8000;
 
 app.use('/', express.static(path.join(__dirname + '/')));
 
-app.post('/resume', function(req, res, next) {
+app.get('/resume', function(req, res, next) {
   var stream = fs.readStream('/resume');
   var filename = "resume.pdf"; 
   // Be careful of special characters
