@@ -1,7 +1,8 @@
 var path = require('path');
-var express = require('express');
-
-var app = express();
+var express = require('express'),
+    fs = require('fs'),
+    app = express();
+	
 var port = process.env.PORT || 8000;
 
 app.use('/', express.static(path.join(__dirname + '/')));
