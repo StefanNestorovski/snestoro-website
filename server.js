@@ -6,18 +6,13 @@ var port = process.env.PORT || 8000;
 
 app.use('/', express.static(path.join(__dirname + '/')));
 
-app.get('/resume', function(req, res, next) {
-  var stream = fs.readStream('/resume');
-  var filename = "resume.pdf"; 
-  // Be careful of special characters
+app.get('/resume', function (req, res) {
+    var filePath = "/resume/resume.pdf";
 
-  filename = encodeURIComponent(filename);
-  // Ideally this should strip them
-
-  res.setHeader('Content-disposition', 'inline; filename="' + filename + '"');
-  res.setHeader('Content-type', 'application/pdf');
-
-  stream.pipe(res);
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+    });
 });
 
 app.listen(port, function() {
