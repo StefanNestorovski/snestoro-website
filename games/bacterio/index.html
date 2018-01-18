@@ -7,6 +7,24 @@
 </head>
 
 <body>
-	<canvas id="gameCanvas" width="800" height="800"></canvas>
+	<form>
+		<table style="width:50%; align=left">
+			<tr>
+				<th><span># of starting bacterias </span><input type="number" name="startingBacteria"></th>
+				<th><span># of starting foods </span><input type="number" name="startingFood"></th>
+			</tr>
+			<tr>
+					
+				<th><span>Bacteria size </span><input type="number" name="bacteriaSize"></th>
+				<th><span>Bacteria death age</span><input type="number" name="bacteriaDeath"></th>
+			</tr>
+		</table>
+	</form>
+	
+	
+	
+	<div>
+		<canvas id="gameCanvas" width="800" height="800"></canvas>
+	</div>
 	<script src="scripts/main.js" type="text/javascript" async></script>
 </body>

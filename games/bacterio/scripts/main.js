@@ -2,21 +2,22 @@ var canvas;
 var context;
 //800 by 800
 
-const initBacterias = 10;
-const initFood = 3;
-const blockSize = 20;
-const gameSpeed = 10;
-const bacteriaSpeed = 10;
-const deathAge = 50;
+var initBacterias = 100;
+var initFood = 2;
+var deathAge = 50;
+var blockSize = 10;
+
+const gameSpeed = 100;
+const renderSpeed = 20;
 
 const rates = {
-	birth: 0.8, //Higher = less births 
+	birth: 0.9, //Higher = less births 
 	death: 0.9, //Higher = less death of old age
-	murder: 0.99, //Higher = less same colour murders
+	murder: 0.5, //Higher = less same colour murders
 	eatFood: 0.97 //Higher = less food eaten
 	}
 
-const colorGroups = ['blue', 'red', 'yellow', 'green', 'black', 'pink'];
+const colorGroups = ['blue', 'red', 'yellow', 'green', 'black', 'pink', 'orange'];
 
 bacterias = [];
 foods = [];
@@ -45,60 +46,58 @@ function bacteria (options = 0) {
 	
 	that.age = 0;
 	
-	that.t = 0;
-	
 	that.update = function(){
 		if(that.alive){
-			if(that.t == 0){
-				that.age += Math.random();
-				
-				if(Boolean(Math.round(Math.random())))
-					that.x += Math.floor(Math.random() * 3 - 1) * blockSize;
-				else
-					that.y += Math.floor(Math.random() * 3 - 1) * blockSize;
-				
-				if(that.x < 0){
-					that.x = 0;
-				}  
-				else if (that.x >= canvas.width){
-					that.x = canvas.width - blockSize;
-				}
-				
-				if(that.y < (0 + blockSize)){
-					that.y = 0 + blockSize;
-				}
-				else if (that.y >= canvas.height){
-					that.y = canvas.height - blockSize;
-				}
-				
-				//Mans is sexually active
-				if(Math.random() > rates.birth){
-					if(Boolean(Math.round(Math.random())))
-						that.createChild();
-				}
-				that.t = bacteriaSpeed;
-			}else{
-				that.xr += (that.x - that.xr)/bacteriaSpeed;
-				that.yr += (that.y - that.yr)/bacteriaSpeed;
-				that.t--;
+			that.age += Math.random();
+			
+			that.x += Math.floor(Math.random() * 3 - 1) * blockSize;
+			that.y += Math.floor(Math.random() * 3 - 1) * blockSize;
+			
+			if(that.x < 0){
+				that.x = 0;
+			}  
+			else if (that.x >= canvas.width){
+				that.x = canvas.width - blockSize;
 			}
-		}else{
+			
+			if(that.y < (0 + blockSize)){
+				that.y = 0 + blockSize;
+			}
+			else if (that.y >= canvas.height){
+				that.y = canvas.height - blockSize;
+			}
+			
+			//Mans is sexually active
+			if(Math.random() > rates.birth){
+				if(Boolean(Math.round(Math.random())))
+					that.createChild();
+			}
+		}
+	}
+	
+	that.updateMovement = function(){
+		
+	}
+	
+	that.render = function(){
+		if(that.alive){
+			that.xr += (blockSize*renderSpeed/gameSpeed)*Math.sign(that.x - that.xr);
+			that.yr += (blockSize*renderSpeed/gameSpeed)*Math.sign(that.y - that.yr);
+		}else{	
 			that.delta = ((that.size/that.deathT) + 0.3)/2;
 			that.size -= that.delta*2;
 			that.xr += that.delta;
 			that.yr += that.delta;
 		}
-	}
-	
-	that.render = function(){
+		
 		context.fillStyle = that.color;
 		context.fillRect(that.xr, that.yr, that.size, that.size);
 		
-		if(that.alive){
-			context.fillStyle = 'white'
-			context.fillText(Math.floor(this.strength), that.xr, that.yr+10);
-			context.fillText(Math.floor(this.age), that.xr, that.yr+20);
-		}
+		//if(that.alive){
+			//context.fillStyle = 'white'
+			//context.fillText(Math.floor(this.strength), that.xr, that.yr+10);
+			//context.fillText(Math.floor(this.age), that.xr, that.yr+20);
+		//}
 	}
 	
 	that.createChild = function() {
@@ -151,17 +150,13 @@ window.onload = function(){
 	}
 	
 	setInterval(gameLoop, gameSpeed);
+	setInterval(drawAll, renderSpeed);
 };
 
-function gameLoop(){
+function drawAll(){
 	clearScreen();
 	for(var i = 0; i < bacterias.length; i++){
-		bacterias[i].update();
-	}
-	checkCollisions();
-	checkFood();
-	removeNodes();
-	for(var i = 0; i < bacterias.length; i++){
+		//bacterias[i].updateMovement();
 		bacterias[i].render();
 	}
 	for(var i = 0; i < foods.length; i++){
@@ -169,6 +164,15 @@ function gameLoop(){
 	}
 	context.fillStyle = 'black'
 	context.fillText("bacterias: " + bacterias.length,10,10);
+}
+
+function gameLoop(){
+	for(var i = 0; i < bacterias.length; i++){
+		bacterias[i].update();
+	}
+	checkCollisions();
+	checkFood();
+	removeNodes();
 }
 
 function checkCollisions(){
