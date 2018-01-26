@@ -136,10 +136,32 @@ function food () {
 	return that;
 }
 
+document.getElementById('startButton').onclick = initialize;
+
 window.onload = function(){
 	canvas = document.getElementById('gameCanvas');
 	context = canvas.getContext('2d');
+	
+	document.getElementById('startingBacteria').value = initBacterias;
+	document.getElementById('startingFood').value = initFood;
+	document.getElementById('bacteriaSize').value = blockSize;
+	document.getElementById('bacteriaDeath').value = deathAge;
+	
+	initialize();
+	
+	setInterval(gameLoop, gameSpeed);
+	setInterval(drawAll, renderSpeed);
+};
 
+function initialize(){
+	bacterias = [];
+	foods = [];
+	
+	initBacterias = document.getElementById('startingBacteria').value || 10;
+	initFood = document.getElementById('startingFood').value || 0;
+	blockSize = document.getElementById('bacteriaSize').value || 50;
+	deathAge = document.getElementById('bacteriaDeath').value || 20;
+	
 	//Create the initial bacterias
 	for(var i = 0; i < initBacterias; i++){
 		bacterias.push(bacteria());
@@ -148,10 +170,7 @@ window.onload = function(){
 	for(var i = 0; i < initFood; i++){
 		foods.push(food());
 	}
-	
-	setInterval(gameLoop, gameSpeed);
-	setInterval(drawAll, renderSpeed);
-};
+}
 
 function drawAll(){
 	clearScreen();
