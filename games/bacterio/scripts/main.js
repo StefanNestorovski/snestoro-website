@@ -5,10 +5,11 @@ var context;
 var initBacterias = 100;
 var initFood = 2;
 var deathAge = 50;
-var blockSize = 10;
+var blockSize = 100;
 
 const gameSpeed = 100;
 const renderSpeed = 20;
+const maxBacterias = 1000;
 
 const rates = {
 	birth: 0.9, //Higher = less births 
@@ -50,33 +51,36 @@ function bacteria (options = 0) {
 		if(that.alive){
 			that.age += Math.random();
 			
-			that.x += Math.floor(Math.random() * 3 - 1) * blockSize;
-			that.y += Math.floor(Math.random() * 3 - 1) * blockSize;
-			
-			if(that.x < 0){
-				that.x = 0;
-			}  
-			else if (that.x >= canvas.width){
-				that.x = canvas.width - blockSize;
-			}
-			
-			if(that.y < (0 + blockSize)){
-				that.y = 0 + blockSize;
-			}
-			else if (that.y >= canvas.height){
-				that.y = canvas.height - blockSize;
-			}
+			that.updateMovement();
 			
 			//Mans is sexually active
-			if(Math.random() > rates.birth){
+			if(Math.random() > rates.birth && bacterias.length < maxBacterias){
 				if(Boolean(Math.round(Math.random())))
 					that.createChild();
+			if(that.age > deathAge && Math.random() > rates.death){
+			}
+				that.alive = false;
 			}
 		}
 	}
 	
 	that.updateMovement = function(){
+		that.x += Math.floor(Math.random() * 3 - 1) * blockSize;
+		that.y += Math.floor(Math.random() * 3 - 1) * blockSize;
 		
+		if(that.x < 0){
+			that.x = 0;
+		}  
+		else if (that.x >= canvas.width){
+			that.x = canvas.width - blockSize;
+		}
+		
+		if(that.y < (0 + blockSize)){
+			that.y = 0 + blockSize;
+		}
+		else if (that.y >= canvas.height){
+			that.y = canvas.height - blockSize;
+		}
 	}
 	
 	that.render = function(){
@@ -204,18 +208,14 @@ function checkCollisions(){
 					
 					//See who should win, different colors always fight, same colour only sometimes
 					if(bacterias[i].color != bacterias[j].color){
-						compareStrength(bacterias[i], bacterias[j], i, j);
+						compareStrength(bacterias[i], bacterias[j]);
 					}else{
 						if(Math.random() > rates.murder){
-							compareStrength(bacterias[i], bacterias[j], i, j);		
+							compareStrength(bacterias[i], bacterias[j]);		
 						}
 					}
 				}
 			}
-		}
-		//Starting at the age of 80, they are able to die of old age
-		if(bacterias[i].age > deathAge && Math.random() > rates.death){
-			bacterias[i].alive = false;
 		}
 	}
 }
@@ -252,8 +252,9 @@ function compareStrength(b1 , b2){
 
 function removeNodes(i){
 	for(var i = 0; i < bacterias.length; i++){
-		if(bacterias[i].size <= 0)
+		if(bacterias[i].size < blockSize/2){
 			bacterias.splice(i, 1);
+		}
 	}
 }
 
