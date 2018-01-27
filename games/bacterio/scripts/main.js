@@ -5,13 +5,13 @@ var context;
 var initBacterias = 100;
 var initFood = 2;
 var deathAge = 50;
-var blockSize = 100;
+var blockSize = 50;
 
 const gameSpeed = 100;
 const renderSpeed = 20;
-const maxBacterias = 1000;
+const maxBacterias = 1500;
 
-const rates = {
+var rates = {
 	birth: 0.9, //Higher = less births 
 	death: 0.9, //Higher = less death of old age
 	murder: 0.5, //Higher = less same colour murders
@@ -57,8 +57,9 @@ function bacteria (options = 0) {
 			if(Math.random() > rates.birth && bacterias.length < maxBacterias){
 				if(Boolean(Math.round(Math.random())))
 					that.createChild();
-			if(that.age > deathAge && Math.random() > rates.death){
 			}
+				
+			if(that.age > deathAge && Math.random() > rates.death){
 				that.alive = false;
 			}
 		}
@@ -75,8 +76,8 @@ function bacteria (options = 0) {
 			that.x = canvas.width - blockSize;
 		}
 		
-		if(that.y < (0 + blockSize)){
-			that.y = 0 + blockSize;
+		if(that.y < blockSize){
+			that.y = parseInt(blockSize);
 		}
 		else if (that.y >= canvas.height){
 			that.y = canvas.height - blockSize;
@@ -166,6 +167,9 @@ function initialize(){
 	blockSize = document.getElementById('bacteriaSize').value || 50;
 	deathAge = document.getElementById('bacteriaDeath').value || 20;
 	
+	rates.birth = document.getElementById('birthRate').value;
+	rates.death = document.getElementById('deathRate').value;
+	
 	//Create the initial bacterias
 	for(var i = 0; i < initBacterias; i++){
 		bacterias.push(bacteria());
@@ -252,7 +256,7 @@ function compareStrength(b1 , b2){
 
 function removeNodes(i){
 	for(var i = 0; i < bacterias.length; i++){
-		if(bacterias[i].size < blockSize/2){
+		if(bacterias[i].size < blockSize/5){
 			bacterias.splice(i, 1);
 		}
 	}
