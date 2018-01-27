@@ -5,7 +5,7 @@ var context;
 var initBacterias = 100;
 var initFood = 2;
 var deathAge = 50;
-var blockSize = 50;
+var blockSize = 20;
 
 const gameSpeed = 100;
 const renderSpeed = 20;
@@ -164,7 +164,7 @@ function initialize(){
 	
 	initBacterias = document.getElementById('startingBacteria').value || 10;
 	initFood = document.getElementById('startingFood').value || 0;
-	blockSize = document.getElementById('bacteriaSize').value || 50;
+	blockSize = document.getElementById('bacteriaSize').value || 20;
 	deathAge = document.getElementById('bacteriaDeath').value || 20;
 	
 	rates.birth = document.getElementById('birthRate').value;
