@@ -21,20 +21,8 @@ app.get('/stocks', function (req, res) {
 	var now = new Date();
 	var total = 0;
 	var idx = 0;
-
-//	for(var i in results){
-//		var obj = results[i];
-//
-//		var change = ((obj.value-obj.initvalue)*obj.amount - 9.99).toFixed(3);
-//
-//		res.write(obj.name + ": " + change + "</br>");
-//		total += parseFloat(change);
-//		if (idx === results.length - 1){
-//			res.write("</br>Total: " + total.toFixed(2));
-			res.end();
-//		}
-//		idx++;
-//	}
+	
+	get_quote("WEED");
 
 	function getTimeNow(){
 		var now = new Date();
@@ -62,6 +50,8 @@ app.get('/stocks', function (req, res) {
 	
 			var timeobj = dayobj[time];
 			var curPrice = timeobj['4. close'];
+			res.write(curPrice);
+			res.end();
 		}).catch(function () {
 			console.log("Promise Rejected for " + ticker);
 		});
