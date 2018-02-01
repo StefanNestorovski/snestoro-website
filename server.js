@@ -1,4 +1,5 @@
 var path = require('path');
+const alpha = require('alphavantage')({key: '13H9GAWTQGC51OLB'});
 var express = require('express'),
     fs = require('fs'),
     app = express();
@@ -17,25 +18,23 @@ app.get('/resume', function (req, res) {
 });
 
 app.get('/stocks', function (req, res) {
-	const alpha = require('alphavantage')({key: '13H9GAWTQGC51OLB'});
-    
 	var now = new Date();
 	var total = 0;
 	var idx = 0;
 
-	for(var i in results){
-		var obj = results[i];
-
-		var change = ((obj.value-obj.initvalue)*obj.amount - 9.99).toFixed(3);
-
-		res.write(obj.name + ": " + change + "</br>");
-		total += parseFloat(change);
-		if (idx === results.length - 1){
-			res.write("</br>Total: " + total.toFixed(2));
+//	for(var i in results){
+//		var obj = results[i];
+//
+//		var change = ((obj.value-obj.initvalue)*obj.amount - 9.99).toFixed(3);
+//
+//		res.write(obj.name + ": " + change + "</br>");
+//		total += parseFloat(change);
+//		if (idx === results.length - 1){
+//			res.write("</br>Total: " + total.toFixed(2));
 			res.end();
-		}
-		idx++;
-	}
+//		}
+//		idx++;
+//	}
 
 	function getTimeNow(){
 		var now = new Date();
