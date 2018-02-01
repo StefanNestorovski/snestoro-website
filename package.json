@@ -4,7 +4,7 @@
   "description": "Source files for my personal website",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
     "alphavantage": "^1.0.0"
   },
   "devDependencies": {},
