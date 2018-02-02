@@ -14,6 +14,10 @@ var ship1 = new Image();
 ship1.src = 'ship1.png';
 var ship1canvas;
 
+var enemy1 = new Image();
+enemy1.src = 'ship2.png';
+var enemy1canvas;
+
 var laserShot = new Audio('shot.wav');
 
 var canvas;
@@ -21,9 +25,11 @@ var context;
 
 var ship;
 var bullets = [];
+var enemies = [];
 
 var globalX = 0;
 var globalY = 0;
+var score = 0;
 
 window.onload = function(){
 	canvas = document.getElementById('gameCanvas');
@@ -49,9 +55,20 @@ window.onload = function(){
 	ship1canvas.height = ship1.height;
 	ship1canvas.getContext("2d").drawImage(ship1, 0, 0);
 	
+	enemy1canvas = document.createElement("canvas");
+	enemy1canvas.width = enemy1.width;
+	enemy1canvas.height = enemy1.height;
+	enemy1canvas.getContext("2d").drawImage(enemy1, 0, 0);
+	
 	ship = ship();
 	
 	setInterval(gameLoop, 20);
+	setInterval(createEnemy,500);
+}
+
+function createEnemy(){
+	var e = enemy(enemies.length);
+	enemies.push(e);
 }
 
 var map = {}; // You could also use an array
@@ -62,10 +79,15 @@ onkeydown = onkeyup = function(e){
 	
 function gameLoop() {
 	renderBackground();
+	hitEnemy();
 	
 	for(var i = 0; i < bullets.length; i++){
 		bullets[i].update();
 		bullets[i].render();
+	}
+	
+	for(var i = 0; i < enemies.length; i++){
+		enemies[i].render();
 	}
 	
 	ship.render();
@@ -73,6 +95,7 @@ function gameLoop() {
 	context.fillStyle = 'white';
 	context.fillText('Use arrow keys to move around',10,10)
 	context.fillText('Use space to shoot',10,20)
+	context.fillText('Score: ' + score,10,30);
 	
 	if(map[32]){//space bar
 		ship.shootLaser();
@@ -109,11 +132,38 @@ function renderBackground() {
 	}
 }
 
+function hitEnemy(){
+	for(var i = 0; i < enemies.length; i++){
+		for(var j = 0; j < bullets.length; j++){
+			//50px hitbox for enemy, 10px hitbox for bullet
+			var bulletX = bullets[j].globalPosX + globalX;
+			var bulletY = bullets[j].globalPosY + globalY;
+			var enemyX = enemies[i].globalPosX + globalX - 30;
+			var enemyY = enemies[i].globalPosY + globalY - 30;
+			
+			if(bulletX > enemyX && bulletX < enemyX + 50 && bulletY > enemyY && bulletY < enemyY + 50){
+				bullets[j].dead = true;
+				enemies[i].dead = true;
+			}				
+		}
+	}
+	for(var i = 0; i < enemies.length; i++){
+		if(enemies[i].dead){
+			enemies.splice(i,1);
+			score++;
+		}
+	}
+	for(var i = 0; j < bullets.length; i++){
+		if(bullets[i].dead){
+			bullets.splice(i,1);
+		}
+	}
+}
+
 function ship() {
 	var that = {};
 	that.rotation = 0;
 	that.speed = 10;
-	that.size = 1;
 	that.reload = 0;
 		
 	that.moveForward = function (){
@@ -131,17 +181,18 @@ function ship() {
 	}
 	
 	that.rotC = function (){
-		that.rotation += 3;
+		that.rotation += 5;
 	}
 	
 	that.rotCC = function (){
-		that.rotation -= 3;
+		that.rotation -= 5;
 	}
 	
 	that.shootLaser = function (){
 		if(!that.reload > 0){
 			var b = bullet({
-				rotation: that.rotation
+				rotation: that.rotation,
+				i: bullets.length
 				});
 				
 			bullets.push(b);
@@ -164,6 +215,54 @@ function ship() {
 	return that;
 }
 
+function enemy(i){
+	var that = {};
+	that.rotation = Math.random()*360;
+	that.speed = 8;
+	that.reload = 0;
+	that.x = Math.floor(Math.random()*2) * canvas.width - globalX;
+	that.y = Math.floor(Math.random()*2) * canvas.height - globalY;
+	that.dead = false;
+	that.rotRad = that.rotation*Math.PI/180;
+	that.globalPosX = that.x + 5*Math.sin(that.rotRad);
+	that.globalPosY = that.y - 5*Math.cos(that.rotRad);
+	
+	that.moveForward = function (){		
+		that.x += that.speed*Math.sin(that.rotRad);
+		that.y -= that.speed*Math.cos(that.rotRad);
+		
+		that.globalPosX += that.speed*Math.sin(that.rotRad);
+		that.globalPosY -= that.speed*Math.cos(that.rotRad);
+	}
+	
+	that.rotC = function (){
+		that.rotation += 3;
+		that.rotRad = that.rotation*Math.PI/180;
+	}
+	
+	that.rotCC = function (){
+		that.rotation -= 3;
+		that.rotRad = that.rotation*Math.PI/180;
+	}
+	
+	that.render = function (){
+		if(!that.dead){
+			that.moveForward();
+			Math.random() >= 0.5 ? that.rotC() : that.rotCC();
+			
+			if(that.reload > 0) that.reload--;
+			
+			context.translate(that.x + globalX, that.y + globalY);
+			context.rotate(that.rotation*Math.PI/180);
+			context.drawImage(enemy1canvas, -enemy1canvas.width/2, -enemy1canvas.height/2);
+			context.rotate(-that.rotation*Math.PI/180);
+			context.translate(-(that.x + globalX), -(that.y + globalY));
+		}
+	}
+	
+	return that;
+}
+
 function bullet(values) {
 	var that = {};
 	that.rotation = values.rotation;
@@ -174,18 +273,27 @@ function bullet(values) {
 	that.dist = -5;
 	that.width = 10;
 	that.length = 60;
+	that.dead = false;
+	that.rotRad = that.rotation*Math.PI/180;
+	that.globalPosX = -globalX + canvas.width/2 + 30*Math.sin(that.rotRad);
+	that.globalPosY = -globalY + canvas.height/2 - 30*Math.cos(that.rotRad);
 	
 	that.update = function (){
 		that.dist -= that.speed;
+		
+		that.globalPosX += that.speed*Math.sin(that.rotRad);
+		that.globalPosY -= that.speed*Math.cos(that.rotRad);
 	}
 	
 	that.render = function (){
-		context.translate(globalX-that.xShot, globalY-that.yShot);
-		context.rotate(that.rotation*Math.PI/180);
-		context.fillStyle = 'white';
-		context.fillRect(-that.width/2, that.dist-ship1canvas.height/2, that.width, that.length);
-		context.rotate(-that.rotation*Math.PI/180);
-		context.translate(-(globalX-that.xShot), -(globalY-that.yShot));
+		if(!that.dead){
+			context.translate(globalX-that.xShot, globalY-that.yShot);
+			context.rotate(that.rotation*Math.PI/180);
+			context.fillStyle = 'white';
+			context.fillRect(-that.width/2, that.dist-ship1canvas.height/2, that.width, that.length);
+			context.rotate(-that.rotation*Math.PI/180);
+			context.translate(-(globalX-that.xShot), -(globalY-that.yShot));
+		}
 	}
 	return that;
 }
