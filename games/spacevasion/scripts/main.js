@@ -18,6 +18,9 @@ var enemy1 = new Image();
 enemy1.src = 'ship2.png';
 var enemy1canvas;
 
+var youDied = new Image();
+youDied.src = 'youdied.png';
+
 var laserShot = new Audio('shot.wav');
 
 var canvas;
@@ -30,6 +33,8 @@ var enemies = [];
 var globalX = 0;
 var globalY = 0;
 var score = 0;
+var isDead = false;
+var deadLength = 0;
 
 window.onload = function(){
 	canvas = document.getElementById('gameCanvas');
@@ -78,27 +83,45 @@ onkeydown = onkeyup = function(e){
 }
 	
 function gameLoop() {
-	renderBackground();
-	hitEnemy();
-	
-	for(var i = 0; i < bullets.length; i++){
-		bullets[i].update();
-		bullets[i].render();
+	if(!isDead){
+		renderBackground();
+		hitEnemy();
+		
+		for(var i = 0; i < bullets.length; i++){
+			bullets[i].update();
+			bullets[i].render();
+		}
+		
+		for(var i = 0; i < enemies.length; i++){
+			enemies[i].render();
+		}
+		
+		ship.render();
+		
+		context.fillStyle = 'white';
+		context.font = '10px Verdana';
+		context.fillText('Use arrow keys to move around',10,10)
+		context.fillText('Use space to shoot',10,20)
+		context.fillText('Score: ' + score,10,30);
+	}else{
+		deadLength++;
+		context.drawImage(youDied, 0, 100, 800, 200);
+		context.font = '20px Verdana';
+		context.fillText('Your score was: ' + score, 300,560);
+		context.fillText('Press space to play again', 260,600);
 	}
-	
-	for(var i = 0; i < enemies.length; i++){
-		enemies[i].render();
-	}
-	
-	ship.render();
-	
-	context.fillStyle = 'white';
-	context.fillText('Use arrow keys to move around',10,10)
-	context.fillText('Use space to shoot',10,20)
-	context.fillText('Score: ' + score,10,30);
 	
 	if(map[32]){//space bar
 		ship.shootLaser();
+		if(deadLength > 50){
+			isDead = false;
+			globalX = 0;
+			globalY = 0;
+			score = 0;
+			deadLength = 0;
+			enemies = [];
+			bullets = [];
+		}
 	}
 	if(map[37]){//left
 		ship.rotCC();
@@ -148,9 +171,16 @@ function hitEnemy(){
 		}
 	}
 	for(var i = 0; i < enemies.length; i++){
+		
 		if(enemies[i].dead){
 			enemies.splice(i,1);
 			score++;
+		}else{
+			var enemyX = enemies[i].globalPosX + globalX - 30;
+			var enemyY = enemies[i].globalPosY + globalY - 30;
+			if(canvas.width/2-10 < enemyX + 60 && canvas.width/2+10 > enemyX && canvas.height/2-10 < enemyY + 60 && canvas.height/2+10 > enemyY){
+				isDead = true; 
+			}
 		}
 	}
 	for(var i = 0; j < bullets.length; i++){
@@ -254,7 +284,7 @@ function enemy(i){
 			
 			context.translate(that.x + globalX, that.y + globalY);
 			context.rotate(that.rotation*Math.PI/180);
-			context.drawImage(enemy1canvas, -enemy1canvas.width/2, -enemy1canvas.height/2);
+			context.drawImage(enemy1canvas, -enemy1canvas.width/2, -enemy1canvas.height/2);		
 			context.rotate(-that.rotation*Math.PI/180);
 			context.translate(-(that.x + globalX), -(that.y + globalY));
 		}
