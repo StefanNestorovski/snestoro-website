@@ -18,5 +18,5 @@ app.get('/resume', function (req, res) {
 app.use('/', express.static(path.join(__dirname + '/')));
 
 app.listen(port, function() {
-  console.log('listening on port ' + port);
+   console.log('listening on port ' + port);
 });
