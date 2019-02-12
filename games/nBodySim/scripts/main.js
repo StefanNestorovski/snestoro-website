@@ -10,7 +10,9 @@ let cy = 0;
 let mouseDown = false;
 let mousePos = [0, 0];
 
-const gG = 1;
+const simSpeed = 1;
+
+const gG = 1 / simSpeed;
 const addTimer = 1000;
 const spread = 10000;
 const ZOOM_STEP = .05;
@@ -36,7 +38,7 @@ class Hero {
 
 class Planet {
   constructor(mass, locX, locY, speedX, speedY) {
-      this.mass = mass;
+      this.mass = mass * simSpeed;
 			this.locX = locX;
 			this.locY = locY;
 			this.speedX = speedX;
@@ -102,9 +104,9 @@ window.onload = function() {
 	console.log(player.greet());
   let speeed = 10;
   //planets.push(new Planet(500, 500, 450, 0, speeed));
-  planets.push(new Planet(20000, centerX, centerY, 0, 0));
-  planets.push(new Planet(1000, centerX+400, centerY, 0, -speeed));
-  planets.push(new Planet(2000, centerX+1000, centerY, 0, -speeed+3));
+  planets.push(new Planet(20000, centerX, centerY, 0, 1.2));
+  planets.push(new Planet(1000, centerX-400, centerY, 0, -speeed));
+  planets.push(new Planet(2000, centerX+1000, centerY, 0, -speeed+4));
   for (let i = 0; i < 20; i++) {
 		addRandomPlanet();
 	}
@@ -221,10 +223,10 @@ window.onload = function() {
 };
 
 function addRandomPlanet() {
-	planets.push(new Planet(Math.random()*50, Math.random()*1400, Math.random()*200-200, Math.random()*4-2, Math.random()*4-2));
-	planets.push(new Planet(Math.random()*50, Math.random()*1400-200, Math.random()*200+900, Math.random()*4-2, Math.random()*4-2));
-	planets.push(new Planet(Math.random()*50, Math.random()*200-200, Math.random()*1100-200, Math.random()*4-2, Math.random()*4-2));
-	planets.push(new Planet(Math.random()*50, Math.random()*200+1200, Math.random()*1100, Math.random()*4-2, Math.random()*4-2));
+//	planets.push(new Planet(Math.random()*50, Math.random()*1400, Math.random()*200-200, Math.random()*4-2, Math.random()*4-2));
+//	planets.push(new Planet(Math.random()*50, Math.random()*1400-200, Math.random()*200+900, Math.random()*4-2, Math.random()*4-2));
+//	planets.push(new Planet(Math.random()*50, Math.random()*200-200, Math.random()*1100-200, Math.random()*4-2, Math.random()*4-2));
+//	planets.push(new Planet(Math.random()*50, Math.random()*200+1200, Math.random()*1100, Math.random()*4-2, Math.random()*4-2));
 }
 
 function collisions() {
