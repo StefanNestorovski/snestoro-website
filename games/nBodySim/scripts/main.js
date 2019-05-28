@@ -23,6 +23,7 @@ const centerX = canvas.width/2;
 const centerY = canvas.height/2;
 
 let scale = DEFAULT_ZOOM;
+let followingPlanet = null;
 
 class Hero {
     constructor(name, level) {
@@ -55,12 +56,20 @@ class Planet {
 		return Math.cbrt(this.mass);
 	}
 
+  getScreenX() {
+    const screenX = (centerX - (this.locX + cx)) * scale + centerX;
+    return screenX;
+  }
+
+  getScreenY() {
+    const screenY = (centerY - (this.locY + cy)) * scale + centerY;
+    return screenY;
+  }
+
   render() {
+    let x = this.getScreenX();
+    let y = this.getScreenY();
     canvasContext.beginPath();
-    let x = this.locX + cx;
-    let y = this.locY + cy;
-    x = (centerX - x) * scale + centerX;
-    y = (centerY - y) * scale + centerY;
     canvasContext.arc(x, y, this.size() * scale, 0, 2 * Math.PI);
 		canvasContext.fillStyle = "red";
 		canvasContext.fill();
@@ -113,6 +122,7 @@ window.onload = function() {
 
 	let gameInterval = setInterval(function(){
 		clearScreen();
+    follow(followingPlanet);
 		planets.forEach( p => {
 			p.render();
 			p.addForces();
@@ -137,6 +147,7 @@ window.onload = function() {
 				stopped = false;
 				gameInterval = setInterval(function(){
 					clearScreen();
+          follow(followingPlanet);
 					planets.forEach( p => {
 						p.render();
 						p.addForces();
@@ -170,6 +181,7 @@ window.onload = function() {
   canvas.addEventListener("mousedown", setMouseDown, false);
   canvas.addEventListener("mouseup", setMouseUp, false);
   canvas.addEventListener("mousemove", move, false);
+  canvas.addEventListener("click", click, false);
 
   function zoom(e) {
     if (e.wheelDelta > 0) {
@@ -220,6 +232,30 @@ window.onload = function() {
       });
     }
   }
+
+  //pick a planet
+  function click(e) {
+    var radios = document.getElementsByName('click');
+    let clickMeans = null;
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+        clickMeans = radios[i].value;
+        break;
+      }
+    }
+
+    if (clickMeans === 'addPlanet') {
+      planets.push(new Planet(500, getGlobalX(e.clientX), getGlobalY(e.clientY), Math.random()*20-10, Math.random()*20-10));
+    } else if (clickMeans === 'followPlanet') {
+      planets.forEach(p => {
+        if(Math.abs(getGlobalX(e.clientX) - p.locX) < p.size() &&
+        Math.abs(getGlobalY(e.clientY) - p.locY) < p.size()) {
+          followingPlanet = p;
+          console.log(p);
+        }
+      })
+    }
+  }
 };
 
 function addRandomPlanet() {
@@ -265,6 +301,23 @@ function collisions() {
 			}
 		}
 	}
+}
+
+function follow(planet) {
+  if (planet) {
+    cx = centerX - planet.locX;
+    cy = centerY - planet.locY;
+  }
+}
+
+function getGlobalX(screenX) {
+  const gx = centerX - ((screenX - centerX) / scale) - cx;
+  return gx;
+}
+
+function getGlobalY(screenY) {
+  const gy = centerY - ((screenY - centerY) / scale) - cy;
+  return gy;
 }
 
 function clearScreen() {
