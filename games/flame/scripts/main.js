@@ -42,7 +42,7 @@ function movePixels(){
 function drawPixels(){
 	for (let i = 0; i < n.length; i++) {
 		for (let j = 0; j < n.length; j++) {
-			if(n[i][j] > 100) {
+			if(n[i][j] > 10) {
 				ctx.fillStyle = "rgb(" + n[i][j] + ", 0, 0)";
 				ctx.fillRect((i-2)*4, j*4, 4, 4);
 			}
