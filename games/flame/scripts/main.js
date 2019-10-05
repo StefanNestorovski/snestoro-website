@@ -43,11 +43,19 @@ function drawPixels(){
 	for (let i = 0; i < n.length; i++) {
 		for (let j = 0; j < n.length; j++) {
 			if(n[i][j] > 10) {
-				ctx.fillStyle = "rgb(" + n[i][j] + ", 0, 0)";
+				ctx.fillStyle = heatToColor(n[i][j]);
 				ctx.fillRect((i-2)*4, j*4, 4, 4);
 			}
 		}
 	}
+}
+
+function heatToColor(heat) {
+	let r = heat;
+	let g = heat-70;
+	let b = (heat - 150) * 1.66;
+	
+	return "rgb(" + r + ", " + g + ", " + b + ")";
 }
 
 function copyAll() {

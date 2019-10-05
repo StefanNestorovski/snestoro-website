@@ -1,0 +1,55 @@
+const presets = [
+  {
+    "name": "scene1",
+    "numXPoints": 150,
+    "numYPoints": 150,
+    "start": { x: 5, y: 8 },
+    "end": { x: 147, y: 147 },
+    "walls": [
+    	{ "minX": 6, "maxX": 8, "minY": 3, "maxY": 15 },
+    	{ "minX": 3, "maxX": 21, "minY": 18, "maxY": 19},
+      {	"minX": 10,	"maxX": 12,	"minY": 4,	"maxY": 18},
+      {	"minX": 10,	"maxX": 12,	"minY": 4,	"maxY": 17},
+      {	"minX": 15,	"maxX": 22,	"minY": 16,	"maxY": 17},
+      {	"minX": 1,	"maxX": 4,	"minY": 15,	"maxY": 16},
+      {	"minX": 4,	"maxX": 4,	"minY": 20,	"maxY": 22},
+      {	"minX": 7,	"maxX": 7,	"minY": 21,	"maxY": 23},
+      {	"minX": 10,	"maxX": 10,	"minY": 20,	"maxY": 22},
+      {	"minX": 18,	"maxX": 19,	"minY": 4,	"maxY": 16},
+      {	"minX": 20,	"maxX": 22,	"minY": 8,	"maxY": 8},
+      {	"minX": 21,	"maxX": 23,	"minY": 11,	"maxY": 11},
+      {	"minX": 15,	"maxX": 15,	"minY": -5,	"maxY": 13},
+      {	"minX": 2,	"maxX": 5,	"minY": 9,	"maxY": 9},
+      {	"minX": 1,	"maxX": 6,	"minY": 0,	"maxY": 0},
+      {	"minX": 20,	"maxX": 26,	"minY": 31,	"maxY": 31}
+    ]
+  },
+  {
+    "name": "scene2",
+    "numXPoints": 150,
+    "numYPoints": 150,
+    "start": { x: 5, y: 8 },
+    "end": { x: 147, y: 147 },
+    "walls": [
+      { "minX": 6, "maxX": 8, "minY": 3, "maxY": 15 },
+      { "minX": 3, "maxX": 21, "minY": 18, "maxY": 19},
+      {	"minX": 15,	"maxX": 22,	"minY": 16,	"maxY": 17},
+      {	"minX": 1,	"maxX": 4,	"minY": 15,	"maxY": 16},
+      {	"minX": 10,	"maxX": 10,	"minY": 20,	"maxY": 22},
+      {	"minX": 18,	"maxX": 19,	"minY": 4,	"maxY": 16},
+      {	"minX": 15,	"maxX": 15,	"minY": -5,	"maxY": 13},
+      {	"minX": 2,	"maxX": 5,	"minY": 9,	"maxY": 9},
+      {	"minX": 1,	"maxX": 6,	"minY": 0,	"maxY": 0},
+      {	"minX": 20,	"maxX": 26,	"minY": 31,	"maxY": 31}
+    ]
+  },
+  {
+    "name": "Empty Scene",
+    "numXPoints": 30,
+    "numYPoints": 30,
+    "start": { x: 2, y: 2 },
+    "end": { x: 28, y: 28 },
+    "walls": [
+    ]
+  },
+];
