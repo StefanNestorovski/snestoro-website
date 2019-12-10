@@ -9,6 +9,9 @@ var State = {
 	wall: 5
 };
 
+let createWalls = false;
+let removeWalls = false;
+
 let boxColor = {
 	1: 'white',
 	2: 'red',
@@ -40,7 +43,7 @@ function reinitialize(index) {
 	if(index != null) {
 		chosenPreset = presets[index];
 	}
-	clearInterval(interval)
+	clearInterval(interval);
 	initialize();
 	clearScreen();
 	drawSquares();
@@ -114,8 +117,8 @@ function initialize() {
 				points[i][j] = {
 					x: i,
 					y: j,
-					lengthFromStart: 1000,
-					lengthToEnd: 1000,
+					lengthFromStart: 0,
+					lengthToEnd: 0,
 					state: State.wall
 				};
 			} else {
@@ -220,7 +223,7 @@ function pathingV2() {
 	//look at the 8 points around your point
 	for (let i = -1; i <= 1; i++) {
 		for (let j = -1; j <= 1; j++) {
-			if(i != 0 || j != 0) {
+			if((i === 0 || j === 0) && (i + j != 0)) {
 				currentPoint = points[lowestChecked.x + i][lowestChecked.y + j];
 				let lengthFromLowest = dist(lowestChecked, currentPoint);
 				if(currentPoint.state === State.unchecked) {
@@ -373,14 +376,12 @@ function drawSquare(point) {
 	let startX = point.x * (canvas.width / numXPoints);
 	let startY = point.y * (canvas.height / numYPoints);
 	ctx.beginPath();
-	ctx.lineWidth = "1";
+	ctx.lineWidth = '1';
 	ctx.fillStyle = boxColor[point.state];
 	ctx.strokeStyle = "black";
-	ctx.rect(startX, startY, BOX_WIDTH, BOX_HEIGHT);
+	ctx.rect(startX + 1, startY + 1, BOX_WIDTH - 1, BOX_HEIGHT - 1);
 	ctx.stroke();
-	if(point.state != State.unchecked) {
-		ctx.fill();
-	}
+	ctx.fill();
 	//scoreText(point);
 }
 
@@ -392,7 +393,7 @@ function scoreText(point) {
 	ctx.fillText(Math.round(10*sum) / 10, point.x * (canvas.width / numXPoints) + (BOX_WIDTH / 2) , point.y * (canvas.height / numYPoints) + (BOX_HEIGHT / 2) + 5);
 }
 
-function clearScreen(){
+function clearScreen() {
 	ctx.fillStyle = 'white';
 	ctx.fillRect(0,0 ,canvas.width,canvas.height);
 }
@@ -410,4 +411,46 @@ canvas.onmousemove = function(e) {
 	document.getElementById("y").innerHTML="Y: " + point.y;
 	document.getElementById("lengthFromStart").innerHTML="Length From Start: " + point.lengthFromStart;
 	document.getElementById("lengthToEnd").innerHTML="Length To End: " + point.lengthToEnd;
+	toggleWall(point);
 };
+
+canvas.onmousedown = function(e) {
+  // important: correct mouse position:
+  let rect = this.getBoundingClientRect();
+  let x = e.clientX - rect.left;
+  let y = e.clientY - rect.top;
+
+	let i = Math.floor(x / BOX_WIDTH);
+	let j = Math.floor(y / BOX_HEIGHT);
+	let point = points[i][j];
+	if (point.state === State.wall) {
+		removeWalls = true;
+	} else {
+		createWalls = true;
+	}
+	toggleWall(point);
+};
+
+canvas.onmouseup = function(e) {
+  // important: correct mouse position:
+  let rect = this.getBoundingClientRect();
+  let x = e.clientX - rect.left;
+  let y = e.clientY - rect.top;
+
+	let i = Math.floor(x / BOX_WIDTH);
+	let j = Math.floor(y / BOX_HEIGHT);
+	let point = points[i][j];
+	removeWalls = false;
+	createWalls = false;
+};
+
+function toggleWall(point) {
+	if (removeWalls && point.state === State.wall) {
+		point.state = State.unchecked;
+		drawSquare(point)
+	}
+	if (createWalls && point.state != State.wall) {
+		point.state = State.wall;
+		drawSquare(point)
+	}
+}
