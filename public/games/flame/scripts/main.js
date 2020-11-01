@@ -1,12 +1,13 @@
 let canvas = document.getElementById('gameCanvas');
 let ctx;
-let flameWidth = 50;
+let flameWidth = 100;
 let mouseLoc = {
 	x: null,
 	y: null
 }
 
-let size = 204;
+let flameSize = 3;
+let size = 	Math.round(canvas.width / flameSize);
 
 let n = new Array(size);
 let m = new Array(size);
@@ -14,8 +15,8 @@ for (let i = 0; i < n.length; i++) {
 	n[i] = new Array(size);
 	m[i] = new Array(size);
 	for (let j = 0; j < n.length; j++) {
-		n[i][j] = (j > n.length - 3 && i > 100 - flameWidth && i < 100 + flameWidth) ? 255 : 0;
-		m[i][j] = (j > n.length - 3 && i > 100 - flameWidth && i < 100 + flameWidth) ? 255 : 0;
+		n[i][j] = (j > n.length - 3 && i > (size/2) - flameWidth && i < (size/2) + flameWidth) ? 255 : 0;
+		m[i][j] = (j > n.length - 3 && i > (size/2) - flameWidth && i < (size/2) + flameWidth) ? 255 : 0;
 	}
 }
 
@@ -35,39 +36,47 @@ canvas.onmouseout = function(e) {
 
 window.onload = (() => {
 	ctx = canvas.getContext('2d');
-
-	setInterval(function() {
+	let startT = Date.now();
+	loop = () => {
 		clearScreen();
+		let dt1 = Date.now() - startT;
 		movePixels();
+		let dt2 = Date.now() - startT;
 		drawPixels();
+		let dt3 = Date.now() - startT;
 		copyAll();
-	}, 20);
+		let dt4 = Date.now() - startT;
+
+		ctx.fillStyle = "white";
+		ctx.fillText(dt1 + ", " + dt2 + ", " + dt3 + ", " + dt4 +  " Milliseconds per operation (" + (1000/dt4).toFixed(1) + " FPS)", 10, 20);
+		startT = Date.now();
+		requestAnimationFrame(loop);
+	}
+
+	requestAnimationFrame(loop);
 });
 
 function movePixels() {
 	if (mouseLoc.x && mouseLoc.y) {
+		let radius = 5;
 		let mouseTemp = 0;
-		try {
-			m[mouseLoc.x][mouseLoc.y] = mouseTemp;
-			m[mouseLoc.x - 1][mouseLoc.y - 1] = mouseTemp;
-			m[mouseLoc.x][mouseLoc.y - 1] = mouseTemp;
-			m[mouseLoc.x + 1][mouseLoc.y - 1] = mouseTemp;
-			m[mouseLoc.x + 1][mouseLoc.y] = mouseTemp;
-			m[mouseLoc.x + 1][mouseLoc.y + 1] = mouseTemp;
-			m[mouseLoc.x][mouseLoc.y + 1] = mouseTemp;
-			m[mouseLoc.x - 1][mouseLoc.y + 1] = mouseTemp;
-			m[mouseLoc.x - 1][mouseLoc.y] = mouseTemp;
-		} catch (e) {}
+		for (let i = -radius; i <= radius; i++) {
+			for (let j = -radius; j < radius; j++) {
+				try {
+					m[mouseLoc.x + i][mouseLoc.y + j] = mouseTemp;
+				} catch (e) {}
+			}
+		}
 	}
 	for (let i = 1; i < n.length - 1; i++) {
 		for (let j = 1; j < n.length - 2; j++) {
 			n[i][j] = (m[i][j] + 0.5*m[i-1][j] + 0.5*m[i+1][j] + 0.5*m[i][j-1] + 10*m[i][j+1] + 1*m[i][j+2]) / 13.5;
 			n[i][j] = n[i][j] - Math.floor(Math.random()*30);
 			if(m[i][j+1] > 90) {
-				n[i][j] = n[i][j] + 10;
+				n[i][j] += 10;
 			}
 			if(m[i][j] > 90) {
-				n[i][j] = n[i][j] + 2;
+				n[i][j] += 2;
 			}
 		}
 	}
@@ -78,7 +87,7 @@ function drawPixels(){
 		for (let j = 0; j < n.length; j++) {
 			if(n[i][j] > 10) {
 				ctx.fillStyle = heatToColor(n[i][j]);
-				ctx.fillRect((i-2)*4, j*4, 4, 4);
+				ctx.fillRect((i-2)*flameSize, j*flameSize, flameSize, flameSize);
 			}
 		}
 	}
@@ -93,11 +102,7 @@ function heatToColor(heat) {
 }
 
 function copyAll() {
-	for (let i = 0; i < n.length; i++) {
-		for (let j = 0; j < n.length; j++) {
-			m[i][j] = n[i][j];
-		}
-	}
+	m = n;
 }
 
 function clearScreen(){
