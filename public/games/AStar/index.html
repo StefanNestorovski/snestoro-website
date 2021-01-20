@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+	<meta content="utf-8" http-equiv="encoding" />
+</head>
+
+<body>
+	<canvas id="gameCanvas" width="1000" height="1000"></canvas>
+	<select id="presets" onchange="reinitialize(this.selectedIndex);">
+	</select>
+	<select id="pathing" onchange="reinitialize();">
+		<option value"v1">Version 1</option>
+		<option value"v2">Version 2</option>
+		<option value"v3">Version 3</option>
+	</select>
+	<button onclick="beginPathing()">Start</button>
+	<button onclick="clearInterval(interval)">Stop</button>
+	<button onclick="reinitialize();">Reset</button>
+	<div>
+		<span id="pathLength">Length: </span>
+		<span id="x"></span>
+		<span id="y"></span>
+		<span id="lengthToEnd"></span>
+		<span id="lengthFromStart"></span>
+	</div>
+	<script src="scripts/presetScenes.json" type="text/javascript" async></script>
+	<script src="scripts/main.js" type="text/javascript" async></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript" async></script>
+</body>

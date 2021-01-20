@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+	<meta content="utf-8" http-equiv="encoding" />
+</head>
+
+<body>
+	<table style="width:50%; align=left">
+		<tr>
+			<th><span># of starting bacterias </span><input type="number" id="startingBacteria"></th>
+			<th><span># of starting foods </span><input type="number" id="startingFood"></th>
+		</tr>
+		<tr>
+			<th><span>Bacteria size </span><input type="number" id="bacteriaSize"></th>
+			<th><span>Bacteria death age</span><input type="number" id="bacteriaDeath"></th>
+			<th><button id="startButton" type="button" onlick="start()">Start!</button></th>
+		</tr>
+		<tr>
+			<th>
+				<span>Bacteria Birthrate</span></br>
+				<select id="birthRate">
+					<option value="0.5">Very high</option>
+					<option value="0.8">High</option>
+					<option selected="selected" value="0.95">Average</option>
+					<option value="0.99">Low</option>
+					<option value="1.01">None</option>
+				</select>
+			</th>
+			<th>
+				<span>Bacteria Deathrate</span></br>
+				<select id="deathRate">
+					<option value="0.5">Very high</option>
+					<option value="0.8">High</option>
+					<option selected="selected" value="0.95">Average</option>
+					<option value="0.99">Low</option>
+					<option value="1.01">None</option>
+				</select>
+			</th>
+		</tr>
+	</table>
+	
+	
+	<div>
+		<canvas id="gameCanvas" width="800" height="800"></canvas>
+	</div>
+	<script src="scripts/main.js" type="text/javascript" async></script>
+</body>

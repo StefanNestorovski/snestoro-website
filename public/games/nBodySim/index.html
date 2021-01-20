@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+	<meta content="utf-8" http-equiv="encoding" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class='container-fluid'>
+		<canvas id="gameCanvas" width="80%" height="80%"></canvas>
+		<span> What does click do? </span>
+		<br>
+		<input type="radio" name="click" value="addPlanet" checked>Add Planet</input>
+		<br>
+		<input type="radio" name="click" value="followPlanet">Follow Planet</input>
+	</div>
+	<script src="scripts/main.js" type="text/javascript" async></script>
+</body>
+
+</html>
+
+<style>
+	canvas {
+		float: left;
+	}
+	div {
+		display: inline-block;
+	}
+</style>

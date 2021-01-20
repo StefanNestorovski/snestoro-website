@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+	<meta content="utf-8" http-equiv="encoding" />
+	<style>
+		html, body{
+			height: 100%;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<canvas id="gameCanvas" style="height: 90%; width: 90%; border:black 1px solid"></canvas>
+	<div>
+		<span>Rule Set: </span>
+		<input id="ruleSet" type="number" onenter></input>
+		<button onclick="reinitialize();">Set</button>
+	</div>
+	<script src="scripts/main.js" type="text/javascript" async></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript" async></script>
+</body>

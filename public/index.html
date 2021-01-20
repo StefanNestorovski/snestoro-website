@@ -11,6 +11,7 @@
       <meta name="description" content="My personal website for showcasing my talents">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/style.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -39,66 +40,162 @@
       </nav>
       <div> 
         <div style="height: 1000px; background-color: aqua;" id="section1"></div>
-        <div style="height: 1000px; background-color: green;" id="section2"></div>
-        <div id="section3">
-          <div id="carouselExampleFade" class="carousel slide" data-ride="carousel">
+        <div style="height: 1000px; background-color: rgb(255, 89, 219);" id="section2"></div>
+        <div id="section3" class="bg-dark">
+          <h1 class="p-3 text-light">My Projects</h1>
+          <div id="projectsCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#projectsCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#projectsCarousel" data-slide-to="1"></li>
+              <li data-target="#projectsCarousel" data-slide-to="2"></li>
+              <li data-target="#projectsCarousel" data-slide-to="3"></li>
+              <li data-target="#projectsCarousel" data-slide-to="4"></li>
+            </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <div class="row">
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/code.jpg" alt="First slide">
+                  <div class="col-md-1 col-sm-2"></div>
+                  <div class="col-md-5 col-sm-8">
+                      <div class="card m-3">
+                        <img class="card-img-top" src="img/code.jpg" alt="Card image cap">
+                        <div class="card-body">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                      </div>
                   </div>
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/astar.gif" alt="Second slide">
+                  <div class="col-sm-2 d-sm-block d-md-none"></div>
+                  <div class="col-md-5 col-sm-8">
+                    <div class="card m-3">
+                      <img class="card-img-top" src="img/mandelbrot.gif" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-1 col-sm-2"></div>
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="row">
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/nbodysimulation.png" alt="Second slide">
+                  <div class="col-md-1 col-sm-2"></div>
+                  <div class="col-md-5 col-sm-8">
+                      <div class="card m-3">
+                        <img class="card-img-top" src="img/spacevasion.png" alt="Card image cap">
+                        <div class="card-body">
+                          <h5 class="card-title">N-Body Simulation</h5>
+                          <p class="card-text">A simulation that allows you to watch planets orbit eachother and watch 
+                            them move around and get affected by all the gravitational forces. Made in javascript.</p>
+                          <a href="#" class="btn btn-primary">Play Here</a>
+                        </div>
+                      </div>
                   </div>
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/astar.gif" alt="Second slide">
+                  <div class="col-sm-2 d-sm-block d-md-none"></div>
+                  <div class="col-md-5 col-sm-8">
+                    <div class="card m-3">
+                      <img class="card-img-top" src="img/cellularAutomata.gif" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="./games/CellularAutomata/" class="btn btn-primary">Play Here</a>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-1 col-sm-2"></div>
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="row">
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/bacterio.png" alt="Second slide">
+                  <div class="col-md-1 col-sm-2"></div>
+                  <div class="col-md-5 col-sm-8">
+                      <div class="card m-3">
+                        <img class="card-img-top" src="img/nbodysimulation.png" alt="Card image cap">
+                        <div class="card-body">
+                          <h5 class="card-title">N-Body Simulation</h5>
+                          <p class="card-text">A simulation that allows you to watch planets orbit eachother and watch 
+                            them move around and get affected by all the gravitational forces. Made in javascript.</p>
+                          <a href="#" class="btn btn-primary">Play Here</a>
+                        </div>
+                      </div>
                   </div>
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/cellularAutomata.gif" alt="Second slide">
+                  <div class="col-sm-2 d-sm-block d-md-none"></div>
+                  <div class="col-md-5 col-sm-8">
+                    <div class="card m-3">
+                      <img class="card-img-top" src="img/astar.gif" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-1 col-sm-2"></div>
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="row">
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/fishy.gif" alt="Second slide">
+                  <div class="col-md-1 col-sm-2"></div>
+                  <div class="col-md-5 col-sm-8">
+                      <div class="card m-3">
+                        <img class="card-img-top" src="img/flame.gif" alt="Card image cap">
+                        <div class="card-body">
+                          <h5 class="card-title">N-Body Simulation</h5>
+                          <p class="card-text">A simulation that allows you to watch planets orbit eachother and watch 
+                            them move around and get affected by all the gravitational forces. Made in javascript.</p>
+                          <a href="#" class="btn btn-primary">Play Here</a>
+                        </div>
+                      </div>
                   </div>
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/flame.gif" alt="Second slide">
+                  <div class="col-sm-2 d-sm-block d-md-none"></div>
+                  <div class="col-md-5 col-sm-8">
+                    <div class="card m-3">
+                      <img class="card-img-top" src="img/bacterio.png" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-1 col-sm-2"></div>
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="row">
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/pong.png" alt="Second slide">
+                  <div class="col-md-1 col-sm-2"></div>
+                  <div class="col-md-5 col-sm-8">
+                      <div class="card m-3">
+                        <img class="card-img-top" src="img/fishy.gif" alt="Card image cap">
+                        <div class="card-body">
+                          <h5 class="card-title">N-Body Simulation</h5>
+                          <p class="card-text">A simulation that allows you to watch planets orbit eachother and watch 
+                            them move around and get affected by all the gravitational forces. Made in javascript.</p>
+                          <a href="#" class="btn btn-primary">Play Here</a>
+                        </div>
+                      </div>
                   </div>
-                  <div class="col-md-6">
-                    <img class="d-block w-100" src="img/spacevasion.png" alt="Second slide">
+                  <div class="col-sm-2 d-sm-block d-md-none"></div>
+                  <div class="col-md-5 col-sm-8">
+                    <div class="card m-3">
+                      <img class="card-img-top" src="img/pong.gif" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-1 col-sm-2"></div>
                 </div>
               </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#projectsCarousel" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#projectsCarousel" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
